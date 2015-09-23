@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_runtime_dependency 'spree_core', '~> 1.1'
+  s.add_runtime_dependency 'spree_core', '~> 3.0.4'
 
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'factory_girl'

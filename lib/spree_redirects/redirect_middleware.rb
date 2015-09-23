@@ -31,7 +31,7 @@ module SpreeRedirects
     
     def find_redirect(url)
       redirect = Spree::Redirect.find_by_old_url(url)
-      redirect.new_url unless redirect.nil?
+      '/'
     end
     
   end
