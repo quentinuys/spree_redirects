@@ -14,13 +14,13 @@ module SpreeRedirects
       rescue Exception => e
         routing_error = e
       end
-
       if routing_error.present? or status == 404
         path = [ env["PATH_INFO"], env["QUERY_STRING"] ].join("?").sub(/[\/\?\s]*$/, "").strip
-
-        if url = find_redirect(path)
-          # Issue a "Moved permanently" response with the redirect location
-          return [ 301, { "Location" => url }, [ "Redirecting..." ] ]
+        unless path == "" || path =~ /(jpg)|(JPG)|(png)|(PNG)/
+          if url = find_redirect(path)
+            # Issue a "Moved permanently" response with the redirect location
+            return [ 301, { "Location" => url }, [ "Redirecting..." ] ]
+          end
         end
       end
 
