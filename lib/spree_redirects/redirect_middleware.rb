@@ -6,6 +6,7 @@ module SpreeRedirects
     end
    
     def call(env)
+      binding.pry
       # when consider_all_requests_local is false, an exception is raised for 404
       # consider_all_requests_local should be false in a production environment
 
@@ -16,7 +17,10 @@ module SpreeRedirects
         ExceptionNotifier.notify_exception(e)
       end
       if routing_error.present? or status == 404
+        Rails.logger.debug "The status for the request is #{status} and failed. Going to redirect.."
+        Rails.logger.debug "Path Info and Query String = #{env['PATH_INFO']} .. #{env['QUERY_STRING']}"
         path = [ env["PATH_INFO"], env["QUERY_STRING"] ].join("?").sub(/[\/\?\s]*$/, "").strip
+        Rails.logger.debug "The path for the request is #{path}"
         unless path == "" || path =~ /(jpg)|(JPG)|(png)|(PNG)/
           if url = find_redirect(path)
             # Issue a "Moved permanently" response with the redirect location
