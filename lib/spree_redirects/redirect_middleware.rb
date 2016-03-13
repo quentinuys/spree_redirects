@@ -13,6 +13,7 @@ module SpreeRedirects
         status, headers, body = @app.call(env)
       rescue Exception => e
         routing_error = e
+        ExceptionNotifier.notify_exception(e)
       end
       if routing_error.present? or status == 404
         path = [ env["PATH_INFO"], env["QUERY_STRING"] ].join("?").sub(/[\/\?\s]*$/, "").strip
